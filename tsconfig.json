@@ -9,17 +9,22 @@
     ],
     "downlevelIteration": true,
     "alwaysStrict": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "noFallthroughCasesInSwitch": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
-    "paths": {
-      "redux": [
-        "node_modules/redux/index.d.ts"
-      ],
-    },
-    "sourceMap": true
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "include": [
     "src"
