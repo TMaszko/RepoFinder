@@ -3,6 +3,7 @@ import {createEpicMiddleware, EpicMiddleware} from "redux-observable";
 
 import {IAction} from "./actions";
 import rootEpic from "./epics";
+import {rootReducer as search} from "./search/reducers";
 import {IMainState} from "./states";
 
 const composeEnhancers: <S>(enhancer: StoreEnhancer<S>) => StoreEnhancer<S> = (
@@ -14,7 +15,7 @@ const epicMiddleware: EpicMiddleware<IAction> = createEpicMiddleware();
 export default function getConfiguredStore(): Store<IMainState> {
   const store: Store<IMainState> = createStore<IMainState, IAction, {}, {}>(
     combineReducers({
-
+      search,
     }),
     composeEnhancers(
       applyMiddleware(
