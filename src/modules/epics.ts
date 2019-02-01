@@ -1,5 +1,11 @@
 import {combineEpics} from "redux-observable";
 
-export default combineEpics(
+import {IPayloadAction} from "./actions";
+import {searchEpic} from "./search/epics";
+import {ISearchRepoResult} from "./search/ISearchRepoResult";
 
+export type EpicActions = IPayloadAction<string> | IPayloadAction<ISearchRepoResult[]>;
+
+export default combineEpics(
+  searchEpic,
 );

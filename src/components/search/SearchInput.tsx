@@ -33,7 +33,7 @@ class SearchInputComponent extends React.Component<IProps, {}> {
 export const SearchInput: React.ComponentClass<{}> = connect<IStateProps, IDispatchProps, {}, IMainState>(
   (state: IMainState): IStateProps => {
     return {
-      searchValue: state.search.value,
+      searchValue: state.search.inputValue,
     };
   },
   (dispatch: Dispatch): IDispatchProps => {
