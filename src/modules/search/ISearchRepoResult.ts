@@ -3,6 +3,6 @@ export interface ISearchRepoResult {
   title: string;
   owner: string;
   stars: number;
-  createdAt: Date;
-  [key: string]: string | number | Date;
+  createdAt: string;
+  [key: string]: string | number;
 }

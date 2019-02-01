@@ -17,3 +17,6 @@ export const payloadActionCreator: <T>(type: string) => (payload: T) => IPayload
       payload,
     };
   };
+
+export const INIT_APP: string = "@INIT/INIT_APP";
+export const onInitApp: () => Action<string> = actionCreator(INIT_APP);
