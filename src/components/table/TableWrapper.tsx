@@ -10,8 +10,11 @@ export default styled.div`
       border: 1px solid #dfe2e5;
       text-align: center;
 
-      &:first-child {
-        text-align: right;
+      .header-wrapper {
+        display: flex;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
       }
     }
 

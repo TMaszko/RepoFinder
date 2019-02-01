@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import {SortDirs} from "../../modules/table/SortDirs";
+import Arrow from "./Arrow";
 import TableWrapper from "./TableWrapper";
 
 export interface IRow {
@@ -8,13 +10,19 @@ export interface IRow {
 }
 
 export interface IColumn {
-  keyName: string;
+  columnKey: string;
   header: string;
+}
+
+export interface ISortBySettings {
+  columnKey: string;
+  sortDir: SortDirs;
 }
 
 interface IProps {
   columnsHeaders: IColumn[];
   rows: IRow[];
+  sortBy: ISortBySettings[];
 }
 
 export class Table extends React.Component<IProps, {}> {
@@ -24,9 +32,17 @@ export class Table extends React.Component<IProps, {}> {
       <TableWrapper>
         <table>
           <thead>
-            {this.props.rows.length !== 0 && this.props.columnsHeaders.map(({ keyName, header }) =>
-              <th className="header-cell" key={keyName}>
-                {header}
+            {this.props.rows.length !== 0 && this.props.columnsHeaders.map(({ columnKey, header }) =>
+              <th className="header-cell" key={columnKey}>
+                <div className="header-wrapper">
+                  {header}
+                  {this.props.sortBy.find(el => el.columnKey === columnKey)
+                    &&
+                    <Arrow
+                      top={SortDirs.ASC === (this.props.sortBy.find(el => el.columnKey === columnKey) as ISortBySettings).sortDir}
+                    />
+                  }
+                </div>
               </th>,
             )}
           </thead>
