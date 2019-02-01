@@ -1,6 +1,8 @@
+import {ISearchRepoResult} from "./search/ISearchRepoResult";
 
 export interface ISearchState {
-  value: string;
+  inputValue: string;
+  results: ISearchRepoResult[];
 }
 
 export interface IMainState {
