@@ -10,6 +10,7 @@ import {onFetchedSearchResultSuccess, SEARCH_VALUE_CHANGED} from "./actions";
 import {ISearchRepoResult} from "./ISearchRepoResult";
 
 const API_URL: string = "https://api.github.com/search/repositories";
+const MAX_ITEMS_PER_PAGE_API: number = 100;
 const DEBOUNCE_TIME: number = 300;
 
 interface ISearchRepoResultAPI {
@@ -44,7 +45,7 @@ export const searchEpic: (action$: ActionsObservable<EpicActions>, state$: State
       debounceTime(DEBOUNCE_TIME),
       filter(action => !!action.payload),
       switchMap(action =>
-        ajax.getJSON(`${API_URL}?q=${action.payload}`).pipe(
+        ajax.getJSON(`${API_URL}?per_page=${MAX_ITEMS_PER_PAGE_API}&q=${action.payload}`).pipe(
           map(response => onFetchedSearchResultSuccess(mapToReposResult(response as IResponse)),
           ),
         ),

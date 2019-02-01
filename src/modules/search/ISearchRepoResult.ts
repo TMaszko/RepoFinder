@@ -4,4 +4,5 @@ export interface ISearchRepoResult {
   owner: string;
   stars: number;
   createdAt: Date;
+  [key: string]: string | number | Date;
 }
