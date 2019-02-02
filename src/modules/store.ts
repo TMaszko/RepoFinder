@@ -3,6 +3,7 @@ import {createEpicMiddleware, EpicMiddleware} from "redux-observable";
 
 import {onInitApp} from "./actions";
 import rootEpic, {EpicActions} from "./epics";
+import {rootReducer as pagination} from "./pagination/reducers";
 import {rootReducer as search} from "./search/reducers";
 import {IMainState} from "./states";
 import {rootReducer as table} from "./table/reducers";
@@ -27,6 +28,7 @@ export default function getConfiguredStore(): Store<IMainState> {
     combineReducers({
       search,
       table,
+      pagination,
     }),
     initialState,
     composeEnhancers(

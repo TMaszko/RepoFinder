@@ -3,6 +3,8 @@ import {Action} from "redux";
 import {actionCreator, IPayloadAction, payloadActionCreator} from "../actions";
 import {ISearchRepoResult} from "./ISearchRepoResult";
 
+export type SearchTypes = IPayloadAction<string> | IPayloadAction<ISearchRepoResult[]>;
+
 export const SEARCH_VALUE_CHANGED: string = "@SEARCH/SEARCH_VALUE_CHANGED";
 export const onSearchValueChanged: (value: string) => IPayloadAction<string> = payloadActionCreator<string>(SEARCH_VALUE_CHANGED);
 

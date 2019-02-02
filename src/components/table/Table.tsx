@@ -79,6 +79,7 @@ export class Table extends React.Component<IProps, {}> {
                       >
                       </Arrow>
                       <Arrow
+                        bottom
                         onClick={() => this.onSortChangeTable(columnKey)}
                         disabledSorting={getColumnSortingDirection(this.props.sortBy, columnKey) === SortDirs.NONE
                           || getColumnSortingDirection(this.props.sortBy, columnKey) === SortDirs.ASC}

@@ -6,6 +6,11 @@ export interface ISearchState {
   results: ISearchRepoResult[];
 }
 
+export interface IPaginationState {
+  currentPage: number;
+  perPage: number;
+}
+
 export interface ITableState {
   sortBy: ISortBySettings[];
 }
@@ -13,4 +18,5 @@ export interface ITableState {
 export interface IMainState {
   search: ISearchState;
   table: ITableState;
+  pagination: IPaginationState;
 }

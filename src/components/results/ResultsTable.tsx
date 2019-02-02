@@ -6,10 +6,11 @@ import {zip} from "../../modules/arrays";
 import {ISearchRepoResult} from "../../modules/search/ISearchRepoResult";
 import {IMainState} from "../../modules/states";
 import {onTableSortingDirChanged} from "../../modules/table/actions";
+import {IInjectedProps, withPagination} from "../pagination/withPagination";
 import {IColumn, IRow, ISortBySettings, Table} from "../table/Table";
 
-interface IStateProps {
-  results: ISearchRepoResult[];
+interface IStateProps extends IInjectedProps<ISearchRepoResult> {
+  items: ISearchRepoResult[];
   sortBy: ISortBySettings[];
 }
 
@@ -54,7 +55,7 @@ class ResultsTableComponent extends React.Component<IProps, {}> {
         onSortChange={this.props.onSortChanged}
         sortBy={this.props.sortBy}
         columnsHeaders={zippedColumns}
-        rows={mapResultsToRows(this.props.results)}
+        rows={mapResultsToRows(this.props.items)}
       />
     );
   }
@@ -63,8 +64,10 @@ class ResultsTableComponent extends React.Component<IProps, {}> {
 export const ResultsTable: React.ComponentClass<{}> = connect<IStateProps, IDispatchProps, {}, IMainState>(
   (state: IMainState): IStateProps => {
     return {
-      results: state.search.results,
+      items: state.search.results,
       sortBy: state.table.sortBy,
+      perPage: state.pagination.perPage,
+      visiblePages: 5,
     };
   },
   (dispatch: Dispatch): IDispatchProps => {
@@ -74,4 +77,4 @@ export const ResultsTable: React.ComponentClass<{}> = connect<IStateProps, IDisp
       },
     };
   },
-)(ResultsTableComponent);
+)(withPagination<ISearchRepoResult, IProps>(ResultsTableComponent));
