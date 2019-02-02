@@ -7,12 +7,14 @@ import {rootReducer as search} from "./search/reducers";
 import {IMainState} from "./states";
 import {rootReducer as table} from "./table/reducers";
 
+export const INITIAL_STATE_KEY: string = "initialState";
+
 const composeEnhancers: <S>(enhancer: StoreEnhancer<S>) => StoreEnhancer<S> = (
   process.env.NODE_ENV !== "production" && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 );
 
 const getInitialStateIfPossible: () => IMainState = () => {
-  const possibleSerializedInitialState: string = window.localStorage.getItem("initialState") || "";
+  const possibleSerializedInitialState: string = window.localStorage.getItem(INITIAL_STATE_KEY) || "";
   const isInitialState: boolean = !!possibleSerializedInitialState;
   return isInitialState ? JSON.parse(possibleSerializedInitialState) : undefined;
 };

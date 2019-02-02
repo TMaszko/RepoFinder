@@ -1,19 +1,12 @@
-import {ActionsObservable, ofType, StateObservable} from "redux-observable";
+import {ActionsObservable, ofType} from "redux-observable";
 import {Observable, of} from "rxjs";
 import {ajax} from "rxjs/ajax";
-import {debounceTime, map, switchMap, tap, withLatestFrom} from "rxjs/operators";
+import {debounceTime, map, switchMap} from "rxjs/operators";
 
 import {IPayloadAction} from "../actions";
 import {EpicActions} from "../epics";
 import {dateFormatter} from "../formaters";
-import {IMainState} from "../states";
-import {TABLE_SORTING_DIR_CHANGED} from "../table/actions";
-import {
-  FETCHED_SEARCH_RESULT_SUCCESS,
-  onFetchedSearchResultSuccess,
-  onSearchStateSaved,
-  SEARCH_VALUE_CHANGED,
-} from "./actions";
+import {onFetchedSearchResultSuccess, SEARCH_VALUE_CHANGED} from "./actions";
 import {ISearchRepoResult} from "./ISearchRepoResult";
 
 const API_URL: string = "https://api.github.com/search/repositories";
@@ -57,15 +50,3 @@ export const searchEpic: (action$: ActionsObservable<EpicActions>) => Observable
       }
     }),
   );
-
-export const saveEpic: (actions$: ActionsObservable<EpicActions>, state$: StateObservable<IMainState>) => Observable<EpicActions> =
-  (action$, state$) =>
-    action$.pipe(
-      ofType<EpicActions, IPayloadAction<ISearchRepoResult[]>>(FETCHED_SEARCH_RESULT_SUCCESS, TABLE_SORTING_DIR_CHANGED),
-      withLatestFrom(state$, (_, state) => state),
-      tap(state => {
-        const serializedState: string = JSON.stringify(state);
-        window.localStorage.setItem("initialState", serializedState);
-      }),
-      map(onSearchStateSaved),
-    );
