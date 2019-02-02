@@ -1,12 +1,13 @@
 import {ActionsObservable, ofType, StateObservable} from "redux-observable";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ajax} from "rxjs/ajax";
-import {debounceTime, filter, map, switchMap, tap, withLatestFrom} from "rxjs/operators";
+import {debounceTime, map, switchMap, tap, withLatestFrom} from "rxjs/operators";
 
 import {IPayloadAction} from "../actions";
 import {EpicActions} from "../epics";
 import {dateFormatter} from "../formaters";
 import {IMainState} from "../states";
+import {TABLE_SORTING_DIR_CHANGED} from "../table/actions";
 import {
   FETCHED_SEARCH_RESULT_SUCCESS,
   onFetchedSearchResultSuccess,
@@ -46,19 +47,21 @@ export const searchEpic: (action$: ActionsObservable<EpicActions>) => Observable
   action$.pipe(
     ofType<EpicActions, IPayloadAction<string>>(SEARCH_VALUE_CHANGED),
     debounceTime(DEBOUNCE_TIME),
-    filter(action => !!action.payload),
-    switchMap(action =>
-      ajax.getJSON(`${API_URL}?per_page=${MAX_ITEMS_PER_PAGE_API}&q=${action.payload}`).pipe(
-        map(response => onFetchedSearchResultSuccess(mapToReposResult(response as IResponse)),
-        ),
-      ),
-    ),
+    switchMap(action => {
+      if (action.payload !== "") {
+        return ajax.getJSON(`${API_URL}?per_page=${MAX_ITEMS_PER_PAGE_API}&q=${action.payload}`).pipe(
+          map(response => onFetchedSearchResultSuccess(mapToReposResult(response as IResponse))),
+        );
+      } else {
+        return of(onFetchedSearchResultSuccess([]));
+      }
+    }),
   );
 
 export const saveEpic: (actions$: ActionsObservable<EpicActions>, state$: StateObservable<IMainState>) => Observable<EpicActions> =
   (action$, state$) =>
     action$.pipe(
-      ofType<EpicActions, IPayloadAction<ISearchRepoResult[]>>(FETCHED_SEARCH_RESULT_SUCCESS),
+      ofType<EpicActions, IPayloadAction<ISearchRepoResult[]>>(FETCHED_SEARCH_RESULT_SUCCESS, TABLE_SORTING_DIR_CHANGED),
       withLatestFrom(state$, (_, state) => state),
       tap(state => {
         const serializedState: string = JSON.stringify(state);

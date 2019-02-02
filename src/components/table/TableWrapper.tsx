@@ -5,6 +5,10 @@ export default styled.div`
     font-family: Helvetica;
     border-collapse: collapse;
 
+    th, td {
+      min-width: 150px;
+    }
+
     .header-cell {
       padding: 6px 13px;
       border: 1px solid #dfe2e5;
