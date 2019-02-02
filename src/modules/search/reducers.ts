@@ -5,9 +5,9 @@ import {ISearchState} from "../states";
 import {FETCHED_SEARCH_RESULT_SUCCESS, SEARCH_VALUE_CHANGED} from "./actions";
 import {ISearchRepoResult} from "./ISearchRepoResult";
 
-const searchReducer: Reducer<ISearchState, Action> = (
+const searchReducer: Reducer<ISearchState, Action<string>> = (
   state: ISearchState = { inputValue: "", results: [] },
-  action: Action,
+  action: Action<string>,
 ): ISearchState => {
   const { type } = action;
   const payload: any = (action as IPayloadAction<any>).payload;
@@ -33,4 +33,4 @@ const searchReducer: Reducer<ISearchState, Action> = (
   }
 };
 
-export const rootReducer: Reducer<ISearchState, Action> = searchReducer;
+export const rootReducer: Reducer<ISearchState, Action<string>> = searchReducer;

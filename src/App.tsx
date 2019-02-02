@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import {ResultsTable} from "./components/results/ResultsTable";
 import {SearchInput} from "./components/search/SearchInput";
 
 class App extends React.Component {
@@ -7,6 +8,7 @@ class App extends React.Component {
     return (
       <>
         <SearchInput />
+        <ResultsTable />
       </>
     );
   }
