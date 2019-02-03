@@ -1,7 +1,7 @@
 import {Action} from "redux";
 
-export interface IPayloadAction<T> extends Action<string> {
-  payload: T;
+export interface IPayloadAction<PayloadType> extends Action<string> {
+  payload: PayloadType;
 }
 
 export const actionCreator: (type: string) => () => Action<string> = (type: string) => () => {
@@ -10,8 +10,8 @@ export const actionCreator: (type: string) => () => Action<string> = (type: stri
   };
 };
 
-export const payloadActionCreator: <T>(type: string) => (payload: T) => IPayloadAction<T> =
-  <T>(type: string) => (payload: T): IPayloadAction<T> => {
+export const payloadActionCreator: <PayloadType>(type: string) => (payload: PayloadType) => IPayloadAction<PayloadType> =
+  <PayloadType>(type: string) => (payload: PayloadType): IPayloadAction<PayloadType> => {
     return {
       type,
       payload,

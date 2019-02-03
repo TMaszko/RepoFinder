@@ -62,7 +62,6 @@ class App extends React.Component<IProps, IState> {
 
   public componentDidMount(): void {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
       if (user) {
         this.props.onUserAuthSuccessful({ uid: user.providerData[0]!.uid });
       } else {
