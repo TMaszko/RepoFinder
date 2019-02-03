@@ -5,6 +5,7 @@ import {Dispatch} from "redux";
 import {onPaginationChangePage, onPaginationNextPage, onPaginationPrevPage} from "../../modules/pagination/actions";
 import {IMainState} from "../../modules/states";
 import Arrow from "../table/Arrow";
+import {IWithItems} from "../table/Table";
 import ContentWrapper from "./ContentWrapper";
 import PageNumber from "./PageNumber";
 import PaginationWrapper from "./PaginationWrapper";
@@ -17,63 +18,63 @@ interface IDispatchProps {
   onNextPage: (currentPage: number, maxPages: number) => void;
   onChangePage: (page: number) => void;
   onPrevPage: (currentPage: number) => void;
+
 }
 
-interface IOwnProps<T> {
-  items: T[];
+interface IOwnProps<ArrayItemsType> extends IWithItems<ArrayItemsType> {
   perPage: number;
   visiblePages: number;
 }
 
-export type IInjectedProps<T> = IOwnProps<T>;
-interface IProps<T> extends IOwnProps<T>, IDispatchProps, IStateProps {
+export type IInjectedProps<ArrayItemsType> = IOwnProps<ArrayItemsType>;
+interface IProps<ArrayItemsType> extends IOwnProps<ArrayItemsType>, IDispatchProps, IStateProps {
 }
 
-type EnhancedProps<T, P> = IProps<T> & P;
+export const withPagination: <ArrayItemsType, ComponentProps extends object> (
+  Component: React.ComponentType<ComponentProps & IWithItems<ArrayItemsType>>,
+) => React.ComponentType<ComponentProps & IOwnProps<ArrayItemsType>> =
+  <ArrayItemsType, ComponentProps extends object>(Component: React.ComponentType<ComponentProps & IWithItems<ArrayItemsType>>) => {
 
-export const withPagination: <T, P>(Component: React.ComponentClass<P & IInjectedProps<T>>) => React.ComponentClass<IOwnProps<T>> =
-  <T, P>(Component: React.ComponentClass<P>) => {
+    class PaginationComponent extends React.Component<IProps<ArrayItemsType>> {
+      public render(): JSX.Element {
+        const pages: number = Math.ceil(this.props.items.length / this.props.perPage);
+        const itemsToShow: ArrayItemsType[] = this.props.items.slice(
+          this.props.currentPage * this.props.perPage,
+          (this.props.currentPage + 1) * this.props.perPage);
 
-    const PaginationComponent: React.ComponentClass<EnhancedProps<T, P>> =
-      class extends React.Component<EnhancedProps<T, P>> {
-        public render(): JSX.Element {
-          const pages: number = Math.ceil(this.props.items.length / this.props.perPage);
-          const { currentPage } = this.props as EnhancedProps<T, P>;
-          const itemsToShow: T[] = this.props.items.slice(currentPage * this.props.perPage, (currentPage + 1) * this.props.perPage);
+        return (
+          <ContentWrapper>
+            <Component {...(this.props as ComponentProps)} items={itemsToShow} />
+            {itemsToShow.length > 0 &&
+              <PaginationWrapper>
+                <Arrow left onClick={() => this.props.onPrevPage(this.props.currentPage)} />
+                {[...Array(this.props.visiblePages)].map((_, pageIndex: number) => {
+                  const pageElementPosition: number = this.props.currentPage % this.props.visiblePages;
+                  const pageNum: number = pageIndex + 1 + this.props.currentPage - pageElementPosition;
+                  return (
+                    pageNum <= pages &&
+                    <PageNumber
+                      isActive={pageNum - 1 === this.props.currentPage}
+                      key={pageIndex}
+                      onClick={() => this.props.onChangePage(pageNum - 1)}
+                    >
+                      {pageNum}
+                    </PageNumber>
+                  );
+                })}
+                <Arrow right onClick={() => this.props.onNextPage(this.props.currentPage, pages)} />
+                <span>
+                  of {pages}
+                </span>
+              </PaginationWrapper>
+            }
+          </ContentWrapper>
 
-          return (
-            <ContentWrapper>
-              <Component {...this.props} items={itemsToShow} />
-              {itemsToShow.length > 0 &&
-                <PaginationWrapper>
-                  <Arrow left onClick={() => this.props.onPrevPage(currentPage)} />
-                  {[...Array(this.props.visiblePages)].map((_, pageIndex: number) => {
-                    const pageElementPosition: number = currentPage % this.props.visiblePages;
-                    const pageNum: number = pageIndex + 1 + currentPage - pageElementPosition;
-                    return (
-                      pageNum <= pages &&
-                      <PageNumber
-                        isActive={pageNum - 1 === currentPage}
-                        key={pageIndex}
-                        onClick={() => this.props.onChangePage(pageNum - 1)}
-                      >
-                        {pageNum}
-                      </PageNumber>
-                    );
-                  })}
-                  <Arrow right onClick={() => this.props.onNextPage(currentPage, pages)} />
-                  <span>
-                    of {pages}
-                  </span>
-                </PaginationWrapper>
-              }
-            </ContentWrapper>
+        );
+      }
+    }
 
-          );
-        }
-      };
-
-    return connect<IStateProps, IDispatchProps, IOwnProps<T>, IMainState>(
+    return connect<IStateProps, IDispatchProps, ComponentProps & IOwnProps<ArrayItemsType>, IMainState>(
       (state: IMainState): IStateProps => {
         return {
           currentPage: state.pagination.currentPage,
@@ -93,5 +94,6 @@ export const withPagination: <T, P>(Component: React.ComponentClass<P & IInjecte
           },
         };
       },
-    )(PaginationComponent as any);
+    )(PaginationComponent);
+
   };
