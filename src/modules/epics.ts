@@ -3,7 +3,13 @@ import {ActionsObservable, combineEpics, ofType, StateObservable} from "redux-ob
 import {Observable} from "rxjs";
 import {map, tap, withLatestFrom} from "rxjs/operators";
 
-import {PAGINATION_CHANGE_PAGE, PAGINATION_NEXT_PAGE, PAGINATION_PREV_PAGE, PaginationTypes} from "./pagination/actions";
+import {
+  PAGINATION_CHANGE_PAGE,
+  PAGINATION_CHANGE_PER_PAGE,
+  PAGINATION_NEXT_PAGE,
+  PAGINATION_PREV_PAGE,
+  PaginationTypes,
+} from "./pagination/actions";
 import {FETCHED_SEARCH_RESULT_SUCCESS, onSearchStateSaved, SearchTypes} from "./search/actions";
 import {searchEpic} from "./search/epics";
 import {IMainState} from "./states";
@@ -21,6 +27,7 @@ export const saveEpic: (actions$: ActionsObservable<EpicActions>, state$: StateO
         PAGINATION_PREV_PAGE,
         PAGINATION_NEXT_PAGE,
         PAGINATION_CHANGE_PAGE,
+        PAGINATION_CHANGE_PER_PAGE,
       ),
       withLatestFrom(state$, (_, state) => state),
       tap(state => {

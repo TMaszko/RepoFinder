@@ -17,3 +17,7 @@ export const onPaginationPrevPage: (page: number) => IPayloadAction<number> =
 export const PAGINATION_CHANGE_PAGE: string = "@PAGINATION/PAGINATION_CHANGE_PAGE";
 export const onPaginationChangePage: (page: number) => IPayloadAction<number> =
   payloadActionCreator<number>(PAGINATION_CHANGE_PAGE);
+
+export const PAGINATION_CHANGE_PER_PAGE: string = "@PAGINATION/PAGINATION_CHANGE_PER_PAGE";
+export const onPaginationChangePerPage: (newPerPage: number) => IPayloadAction<number> =
+  payloadActionCreator<number>(PAGINATION_CHANGE_PER_PAGE);

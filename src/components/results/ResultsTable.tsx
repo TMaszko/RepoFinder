@@ -7,6 +7,7 @@ import {ISearchRepoResult} from "../../modules/search/ISearchRepoResult";
 import {IMainState} from "../../modules/states";
 import {onTableSortingDirChanged} from "../../modules/table/actions";
 import {sortByMultiplePropsComparator} from "../../modules/table/sort";
+import {PerPageChanger} from "../pagination/PerPageChanger";
 import {IInjectedProps, withPagination} from "../pagination/withPagination";
 import {IColumn, IRow, ISortBySettings, Table} from "../table/Table";
 
@@ -47,17 +48,23 @@ const mapResultsToRows: (results: ISearchRepoResult[]) => IRow[] = (results: ISe
   });
 };
 
+const perPageChangerOptions: number[] = [5, 10, 15, 20];
+
 class ResultsTableComponent extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
 
     return (
-      <Table
-        onSortChange={this.props.onSortChanged}
-        sortBy={this.props.sortBy}
-        columnsHeaders={zippedColumns}
-        items={this.props.items}
-      />
+      <>
+        <Table
+          onSortChange={this.props.onSortChanged}
+          sortBy={this.props.sortBy}
+          columnsHeaders={zippedColumns}
+          items={this.props.items}
+        />
+
+        <PerPageChanger options={perPageChangerOptions} />
+      </>
     );
   }
 }
