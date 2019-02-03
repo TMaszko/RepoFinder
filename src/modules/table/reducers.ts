@@ -1,4 +1,4 @@
-import {Action, Reducer} from "redux";
+import {Reducer} from "redux";
 
 import {ISortBySettings} from "../../components/table/Table";
 import {IPayloadAction} from "../actions";
@@ -8,12 +8,13 @@ import {TABLE_SORTING_DIR_CHANGED} from "./actions";
 const calcNewSortingSettings: (column: ISortBySettings, sortBySettings: ISortBySettings[]) => ISortBySettings[] =
   (column, sortBySettings) => [...sortBySettings.filter(el => el.columnKey !== column.columnKey), column];
 
-const tableReducer: Reducer<ITableState, Action<string>> = (
+export type TableTypes = IPayloadAction<ISortBySettings>;
+
+const tableReducer: Reducer<ITableState, TableTypes> = (
   state: ITableState = { sortBy: [] },
-  action: Action<string>,
+  action: TableTypes,
 ) => {
-  const { type } = action;
-  const payload: any = (action as IPayloadAction<any>).payload;
+  const { type, payload } = action;
 
   switch (type) {
     case TABLE_SORTING_DIR_CHANGED: {
@@ -28,4 +29,4 @@ const tableReducer: Reducer<ITableState, Action<string>> = (
   }
 };
 
-export const rootReducer: Reducer<ITableState, Action<string>> = tableReducer;
+export const rootReducer: Reducer<ITableState, TableTypes> = tableReducer;

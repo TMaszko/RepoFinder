@@ -1,6 +1,15 @@
-export const zip: <T, P, R>(firstArray: T[], secondArray: P[], fn: (el1: T, el2: P) => R) => R[] =
-  <T, P, R>(firstArray: T[], secondArray: P[], fn: (el1: T, el2: P) => R): R[] => {
-    const results: R[] = [];
+export const zip: <FirstArrayItemType, SecondArrayItemType, ReturnArrayItemType>
+  (
+  firstArray: FirstArrayItemType[],
+  secondArray: SecondArrayItemType[],
+  fn: (el1: FirstArrayItemType, el2: SecondArrayItemType) => ReturnArrayItemType,
+) => ReturnArrayItemType[] =
+  <FirstArrayItemType, SecondArrayItemType, ReturnArrayItemType>(
+    firstArray: FirstArrayItemType[],
+    secondArray: SecondArrayItemType[],
+    fn: (el1: FirstArrayItemType, el2: SecondArrayItemType) => ReturnArrayItemType,
+  ): ReturnArrayItemType[] => {
+    const results: ReturnArrayItemType[] = [];
     const smallerLength: number = Math.min(firstArray.length, secondArray.length);
     for (let i: number = 0; i < smallerLength; i++) {
       results.push(fn(firstArray[i], secondArray[i]));

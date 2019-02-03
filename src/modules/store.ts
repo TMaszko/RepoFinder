@@ -11,7 +11,7 @@ import {rootReducer as user} from "./user/reducers";
 
 export const INITIAL_STATE_KEY: string = "initialState";
 
-const composeEnhancers: <S>(enhancer: StoreEnhancer<S>) => StoreEnhancer<S> = (
+const composeEnhancers: <Enhancers>(enhancer: StoreEnhancer<Enhancers>) => StoreEnhancer<Enhancers> = (
   process.env.NODE_ENV !== "production" && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 );
 
