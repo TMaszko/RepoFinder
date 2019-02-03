@@ -5,6 +5,7 @@ import {IPaginationState} from "../states";
 import {
   INextPagePaginationAction,
   PAGINATION_CHANGE_PAGE,
+  PAGINATION_CHANGE_PER_PAGE,
   PAGINATION_NEXT_PAGE,
   PAGINATION_PREV_PAGE,
   PaginationTypes,
@@ -46,6 +47,14 @@ export const paginationReducer: Reducer<IPaginationState, PaginationTypes> = (
       return {
         ...state,
         currentPage: 0,
+      };
+    }
+
+    case PAGINATION_CHANGE_PER_PAGE: {
+      return {
+        ...state,
+        currentPage: 0,
+        perPage: payload as number,
       };
     }
 
