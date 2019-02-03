@@ -1,16 +1,14 @@
-import {Action, Reducer} from "redux";
+import {Reducer} from "redux";
 
-import {IPayloadAction} from "../actions";
 import {ISearchState} from "../states";
-import {FETCHED_SEARCH_RESULT_SUCCESS, SEARCH_VALUE_CHANGED} from "./actions";
+import {FETCHED_SEARCH_RESULT_SUCCESS, SEARCH_VALUE_CHANGED, SearchTypes} from "./actions";
 import {ISearchRepoResult} from "./ISearchRepoResult";
 
-const searchReducer: Reducer<ISearchState, Action<string>> = (
+const searchReducer: Reducer<ISearchState, SearchTypes> = (
   state: ISearchState = { inputValue: "", results: [] },
-  action: Action<string>,
+  action: SearchTypes,
 ): ISearchState => {
-  const { type } = action;
-  const payload: any = (action as IPayloadAction<any>).payload;
+  const { type, payload } = action;
 
   switch (type) {
     case SEARCH_VALUE_CHANGED: {
@@ -33,4 +31,4 @@ const searchReducer: Reducer<ISearchState, Action<string>> = (
   }
 };
 
-export const rootReducer: Reducer<ISearchState, Action<string>> = searchReducer;
+export const rootReducer: Reducer<ISearchState, SearchTypes> = searchReducer;

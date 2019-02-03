@@ -3,20 +3,25 @@ import {ActionsObservable, combineEpics, ofType, StateObservable} from "redux-ob
 import {Observable} from "rxjs";
 import {map, tap, withLatestFrom} from "rxjs/operators";
 
-import {IPayloadAction} from "./actions";
-import {FETCHED_SEARCH_RESULT_SUCCESS, onSearchStateSaved} from "./search/actions";
+import {PAGINATION_CHANGE_PAGE, PAGINATION_NEXT_PAGE, PAGINATION_PREV_PAGE, PaginationTypes} from "./pagination/actions";
+import {FETCHED_SEARCH_RESULT_SUCCESS, onSearchStateSaved, SearchTypes} from "./search/actions";
 import {searchEpic} from "./search/epics";
-import {ISearchRepoResult} from "./search/ISearchRepoResult";
 import {IMainState} from "./states";
 import {INITIAL_STATE_KEY} from "./store";
-import {TABLE_SORTING_DIR_CHANGED} from "./table/actions";
+import {TABLE_SORTING_DIR_CHANGED, TableTypes} from "./table/actions";
 
-export type EpicActions = IPayloadAction<string> | IPayloadAction<ISearchRepoResult[]> | Action<string>;
+export type EpicActions = SearchTypes | PaginationTypes | TableTypes | Action<string>;
 
 export const saveEpic: (actions$: ActionsObservable<EpicActions>, state$: StateObservable<IMainState>) => Observable<EpicActions> =
   (action$, state$) =>
     action$.pipe(
-      ofType<EpicActions, IPayloadAction<ISearchRepoResult[]>>(FETCHED_SEARCH_RESULT_SUCCESS, TABLE_SORTING_DIR_CHANGED),
+      ofType<EpicActions>(
+        FETCHED_SEARCH_RESULT_SUCCESS,
+        TABLE_SORTING_DIR_CHANGED,
+        PAGINATION_PREV_PAGE,
+        PAGINATION_NEXT_PAGE,
+        PAGINATION_CHANGE_PAGE,
+      ),
       withLatestFrom(state$, (_, state) => state),
       tap(state => {
         const serializedState: string = JSON.stringify(state);

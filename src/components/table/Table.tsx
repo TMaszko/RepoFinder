@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import {sortByMultiplePropsComparator} from "../../modules/table/sort";
 import {SortDirs} from "../../modules/table/SortDirs";
 import Arrow from "./Arrow";
 import ArrowsWrapper from "./ArrowsWrapper";
@@ -16,6 +15,10 @@ export interface IRow {
   id: string;
 }
 
+export interface IWithItems<ItemType> {
+  items: ItemType[];
+}
+
 export interface IColumn {
   columnKey: string;
   header: string;
@@ -26,12 +29,13 @@ export interface ISortBySettings {
   sortDir: SortDirs;
 }
 
-interface IProps {
+export interface ITableProps extends IWithItems<IRow> {
   columnsHeaders: IColumn[];
-  rows: IRow[];
   sortBy: ISortBySettings[];
   onSortChange?: (column: ISortBySettings) => void;
 }
+
+type IProps = ITableProps;
 
 const getColumnSortingDirection: (sortBy: ISortBySettings[], columnKey: string) => SortDirs = (sortBy, columnKey) => {
   const possibleSortDir: ISortBySettings | undefined = sortBy.find(el => el.columnKey === columnKey);
@@ -66,7 +70,7 @@ export class Table extends React.Component<IProps, {}> {
         <table>
           <thead>
             <tr>
-              {this.props.rows.length !== 0 && this.props.columnsHeaders.map(({ columnKey, header }) =>
+              {this.props.items.length !== 0 && this.props.columnsHeaders.map(({ columnKey, header }) =>
                 <th className="header-cell" key={columnKey}>
                   <div className="header-wrapper">
                     {header}
@@ -79,6 +83,7 @@ export class Table extends React.Component<IProps, {}> {
                       >
                       </Arrow>
                       <Arrow
+                        bottom
                         onClick={() => this.onSortChangeTable(columnKey)}
                         disabledSorting={getColumnSortingDirection(this.props.sortBy, columnKey) === SortDirs.NONE
                           || getColumnSortingDirection(this.props.sortBy, columnKey) === SortDirs.ASC}
@@ -92,7 +97,7 @@ export class Table extends React.Component<IProps, {}> {
             </tr>
           </thead>
           <tbody>
-            {(this.props.onSortChange ? [...this.props.rows].sort(sortByMultiplePropsComparator(this.props.sortBy)) : this.props.rows)
+            {this.props.items
               .map(({ data, id }) =>
                 <tr className="row" key={id}>
                   {data.map((el, i) =>
