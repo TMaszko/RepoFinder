@@ -2,6 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 
 import {IMainState} from "../../modules/states";
+import {getColumnSortingDirection, getNextSortingDirection} from "../../modules/table/sort";
 import {SortDirs} from "../../modules/table/SortDirs";
 import {IUser} from "../../modules/user/IUser";
 import Arrow from "./Arrow";
@@ -46,33 +47,9 @@ interface IOwnProps extends IWithItems<IRow> {
 interface IProps extends IOwnProps, IStateProps {
 }
 
-const getColumnSortingDirection: (sortBy: ISortBySettings[], columnKey: string) => SortDirs = (sortBy, columnKey) => {
-  const possibleSortDir: ISortBySettings | undefined = sortBy.find(el => el.columnKey === columnKey);
-  return possibleSortDir ? possibleSortDir.sortDir : SortDirs.NONE;
-};
-
-const getNextSortingDirection: (sortDir: SortDirs) => SortDirs = sortDir => {
-  switch (sortDir) {
-    case SortDirs.DESC: {
-      return SortDirs.NONE;
-    }
-    case SortDirs.ASC: {
-      return SortDirs.DESC;
-    }
-    case SortDirs.NONE: {
-      return SortDirs.ASC;
-    }
-
-    default: {
-      return sortDir;
-    }
-  }
-};
-
 class TableComponent extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
-    console.log("RERENDER");
 
     return (
       <TableWrapper>
