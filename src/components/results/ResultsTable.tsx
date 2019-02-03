@@ -21,11 +21,11 @@ interface IDispatchProps {
 interface IProps extends IStateProps, IDispatchProps {
 }
 
-const columnKeys: string[] = ["id", "title", "owner", "stars", "createdAt"];
+const columnKeys: (keyof ISearchRepoResult)[] = ["id", "title", "owner", "stars", "createdAt"];
 
 const columnsHeaders: string[] = ["ID", "Repo Title", "Owner", "Stars", "Created at"];
 
-const zippedColumns: IColumn[] = zip<string, string, IColumn>(columnKeys, columnsHeaders, (key, header) => {
+const zippedColumns: IColumn[] = zip<keyof ISearchRepoResult, string, IColumn>(columnKeys, columnsHeaders, (key, header) => {
   return {
     columnKey: key,
     header,
@@ -35,6 +35,7 @@ const zippedColumns: IColumn[] = zip<string, string, IColumn>(columnKeys, column
 const mapResultsToRows: (results: ISearchRepoResult[]) => IRow[] = (results: ISearchRepoResult[]): IRow[] => {
   return results.map(repo => {
     return {
+      ownerId: repo.ownerId,
       id: repo.id,
       data: columnKeys.map(columnKey => {
         return {

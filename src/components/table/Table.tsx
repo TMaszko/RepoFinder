@@ -1,6 +1,9 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
+import {IMainState} from "../../modules/states";
 import {SortDirs} from "../../modules/table/SortDirs";
+import {IUser} from "../../modules/user/IUser";
 import Arrow from "./Arrow";
 import ArrowsWrapper from "./ArrowsWrapper";
 import TableWrapper from "./TableWrapper";
@@ -11,6 +14,7 @@ export interface ICell {
 }
 
 export interface IRow {
+  ownerId: string;
   data: ICell[];
   id: string;
 }
@@ -29,13 +33,18 @@ export interface ISortBySettings {
   sortDir: SortDirs;
 }
 
-export interface ITableProps extends IWithItems<IRow> {
+interface IStateProps {
+  user: IUser;
+}
+
+interface IOwnProps extends IWithItems<IRow> {
   columnsHeaders: IColumn[];
   sortBy: ISortBySettings[];
   onSortChange?: (column: ISortBySettings) => void;
 }
 
-type IProps = ITableProps;
+interface IProps extends IOwnProps, IStateProps {
+}
 
 const getColumnSortingDirection: (sortBy: ISortBySettings[], columnKey: string) => SortDirs = (sortBy, columnKey) => {
   const possibleSortDir: ISortBySettings | undefined = sortBy.find(el => el.columnKey === columnKey);
@@ -60,7 +69,7 @@ const getNextSortingDirection: (sortDir: SortDirs) => SortDirs = sortDir => {
   }
 };
 
-export class Table extends React.Component<IProps, {}> {
+class TableComponent extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
     console.log("RERENDER");
@@ -98,8 +107,8 @@ export class Table extends React.Component<IProps, {}> {
           </thead>
           <tbody>
             {this.props.items
-              .map(({ data, id }) =>
-                <tr className="row" key={id}>
+              .map(({ data, id, ownerId }) =>
+                <tr className={`row${ownerId === this.props.user.uid ? " active-row" : ""}`} key={id}>
                   {data.map((el, i) =>
                     <td className="body-cell" key={i}>
                       {el.value}
@@ -124,3 +133,11 @@ export class Table extends React.Component<IProps, {}> {
   }
 
 }
+
+export const Table: React.ComponentClass<IOwnProps> = connect<IStateProps, {}, {}, IMainState>(
+  (state: IMainState): IStateProps => {
+    return {
+      user: state.user,
+    };
+  },
+)(TableComponent);

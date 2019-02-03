@@ -7,6 +7,7 @@ import {rootReducer as pagination} from "./pagination/reducers";
 import {rootReducer as search} from "./search/reducers";
 import {IMainState} from "./states";
 import {rootReducer as table} from "./table/reducers";
+import {rootReducer as user} from "./user/reducers";
 
 export const INITIAL_STATE_KEY: string = "initialState";
 
@@ -29,6 +30,7 @@ export default function getConfiguredStore(): Store<IMainState> {
       search,
       table,
       pagination,
+      user,
     }),
     initialState,
     composeEnhancers(

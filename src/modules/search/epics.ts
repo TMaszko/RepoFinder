@@ -15,7 +15,7 @@ const DEBOUNCE_TIME: number = 300;
 interface ISearchRepoResultAPI {
   id: string;
   name: string;
-  owner: { login: string };
+  owner: { login: string, id: number };
   stargazers_count: number;
   created_at: string;
 }
@@ -30,6 +30,7 @@ const mapToReposResult: (response: IResponse) => ISearchRepoResult[] = res =>
       id: repo.id,
       title: repo.name,
       owner: repo.owner.login,
+      ownerId: repo.owner.id.toString(),
       stars: repo.stargazers_count,
       createdAt: dateFormatter(new Date(repo.created_at)),
     };
