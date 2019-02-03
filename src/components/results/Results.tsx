@@ -10,6 +10,7 @@ import {sortByMultiplePropsComparator} from "../../modules/table/sort";
 import {PerPageChanger} from "../pagination/PerPageChanger";
 import {IInjectedProps, withPagination} from "../pagination/withPagination";
 import {IColumn, IRow, ISortBySettings, Table} from "../table/Table";
+import ResultsWrapper from "./ResultsWrapper";
 
 interface IStateProps extends IInjectedProps<IRow> {
   sortBy: ISortBySettings[];
@@ -50,26 +51,25 @@ const mapResultsToRows: (results: ISearchRepoResult[]) => IRow[] = (results: ISe
 
 const perPageChangerOptions: number[] = [5, 10, 15, 20];
 
-class ResultsTableComponent extends React.Component<IProps, {}> {
+class ResultsComponent extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
 
     return (
-      <>
+      <ResultsWrapper>
+        <PerPageChanger options={perPageChangerOptions} />
         <Table
           onSortChange={this.props.onSortChanged}
           sortBy={this.props.sortBy}
           columnsHeaders={zippedColumns}
           items={this.props.items}
         />
-
-        <PerPageChanger options={perPageChangerOptions} />
-      </>
+      </ResultsWrapper>
     );
   }
 }
 
-export const ResultsTable: React.ComponentClass<{}> = connect<IStateProps, IDispatchProps, {}, IMainState>(
+export const Results: React.ComponentClass<{}> = connect<IStateProps, IDispatchProps, {}, IMainState>(
   (state: IMainState): IStateProps => {
     return {
       items: [...mapResultsToRows(state.search.results)].sort(sortByMultiplePropsComparator(state.table.sortBy)),
@@ -85,4 +85,4 @@ export const ResultsTable: React.ComponentClass<{}> = connect<IStateProps, IDisp
       },
     };
   },
-)(withPagination<IRow, IProps>(ResultsTableComponent));
+)(withPagination<IRow, IProps>(ResultsComponent));

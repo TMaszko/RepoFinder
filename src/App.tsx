@@ -6,7 +6,8 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 
-import {ResultsTable} from "./components/results/ResultsTable";
+import AppWrapper from "./AppWrapper";
+import {Results} from "./components/results/Results";
 import {SearchInput} from "./components/search/SearchInput";
 import {IMainState} from "./modules/states";
 import {onUserAuthFailed, onUserAuthSuccessful} from "./modules/user/actions";
@@ -75,11 +76,11 @@ class App extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     return (
-      <>
+      <AppWrapper>
         <SearchInput />
-        {this.state.isCheckedIfAuth && <ResultsTable />}
+        {this.state.isCheckedIfAuth && <Results />}
         {this.state.isCheckedIfAuth && !this.props.isAuth && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />}
-      </>
+      </AppWrapper>
     );
   }
 }

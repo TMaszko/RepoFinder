@@ -4,6 +4,7 @@ import {Dispatch} from "redux";
 
 import {onSearchValueChanged} from "../../modules/search/actions";
 import {IMainState} from "../../modules/states";
+import SearchInputWrapper from "./SearchInputWrapper";
 
 interface IDispatchProps {
   onChangeValue: (e: React.SyntheticEvent<HTMLInputElement>) => void;
@@ -20,12 +21,16 @@ class SearchInputComponent extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
     return (
-      <input
-        name="search"
-        type="text"
-        placeholder="Type repository name"
-        onChange={this.props.onChangeValue}
-        value={this.props.searchValue} />
+      <SearchInputWrapper>
+        <label htmlFor="search">Repository name:</label>
+        <input
+          id="search"
+          name="search"
+          type="text"
+          placeholder="Type repository name"
+          onChange={this.props.onChangeValue}
+          value={this.props.searchValue} />
+      </SearchInputWrapper>
     );
   }
 }

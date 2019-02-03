@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export default styled.div`
   table {
+    width: 100%;
     font-family: Helvetica;
     border-collapse: collapse;
 
