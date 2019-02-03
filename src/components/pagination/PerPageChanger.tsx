@@ -25,6 +25,7 @@ class PerPageChangerComponent extends React.Component<IProps> {
   public render(): JSX.Element {
     return (
       <select
+        value={this.props.perPage}
         onChange={(e: React.SyntheticEvent<HTMLSelectElement>) =>
           this.props.onChangePerPage(this.props.options[e.currentTarget.selectedIndex])
         }

@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export default styled.div`
+  max-width: 1092px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  height: 100vh;
 `;
