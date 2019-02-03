@@ -1,44 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Repo-finder
 
-## Available Scripts
+## About
 
-In the project directory, you can run:
+The application allows users to search for github repositories containing given search word in their title and displays result as a table. Maximum number of results is constrained to `100`.
+User can sort results by multiple columns and limit the number of results shown to a specific one (5/10/15/20).
 
-### `npm start`
+## Used Technologies
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### TypeScript
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Application was written in TypeScript. Using this super set of JavaScript language helps to have control over types. This technology was used to prevent bugs resulting from a lack of knowledge about what type variable or function has.
 
-### `npm test`
+### React
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This library makes it much easier to create a user interfaces. It's main advantage is the creation of components that can be reusable in various parts of the application.
 
-### `npm run build`
+### Redux
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To easily manage the state of the application, it was decided to use the Redux library. Thanks to its use, you can easily access interesting values ​​from various parts of the application, as long as they have connection with Redux.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### Redux Observables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To be able to manage side effects, such as asynchronous actions, Redux Observables library was used. This technology was chosen in contrast to Redux Thunk, because it allows you to write in the reactive and functional paradigm, making the code more declarative and much more concise.
 
-### `npm run eject`
+### Jest
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To make sure application is working as it supposed to be, unit tests was written with Jest.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Installation and usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Node modules
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+First step to make the application to work is to install node modules.
 
-## Learn More
+`Remember: the condition to install the required dependencies, run application or tests is to be in the same directory as package.json.`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In developer console install node modules by typing:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**npm users**
+
+```javascript
+npm install
+```
+
+**yarn users**
+
+```javascript
+yarn
+```
+
+#### Start using Repo-finder
+
+After going through all of the above steps run application in a browser by typing below command in developer console.
+
+**npm users**
+
+```javascript
+npm start
+```
+
+**yarn users**
+
+```javascript
+yarn start
+```
+
+
+#### Run Tests
+
+To run tests type below command in developer console.
+
+**npm users**
+
+```javascript
+npm test
+```
+
+**yarn users**
+
+```javascript
+yarn test
+```
