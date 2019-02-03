@@ -9,6 +9,11 @@ export default styled.div`
       min-width: 150px;
     }
 
+    .active-row {
+      background-color: black;
+      color: white;
+    }
+
     .header-cell {
       padding: 6px 13px;
       border: 1px solid #dfe2e5;
