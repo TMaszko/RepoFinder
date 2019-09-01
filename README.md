@@ -4,6 +4,7 @@
 
 The application allows users to search for github repositories containing given search word in their title and displays result as a table. Maximum number of results is constrained to `100`.
 User can sort results by multiple columns and limit the number of results shown to a specific one (5/10/15/20).
+User can also log in with github account.
 
 ## Used Technologies
 
@@ -26,6 +27,10 @@ To be able to manage side effects, such as asynchronous actions, Redux Observabl
 ### Jest
 
 To make sure application is working as it supposed to be, unit tests was written with Jest.
+
+### Firebase
+
+To provide simple log in with Github feature.
 
 ## Installation and usage
 
