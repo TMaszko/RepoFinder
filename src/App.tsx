@@ -1,17 +1,17 @@
-import "firebase/auth";
-
 import * as firebase from "firebase/app";
+import "firebase/auth";
 import * as React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
-
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import AppWrapper from "./AppWrapper";
-import {Results} from "./components/results/Results";
-import {SearchInput} from "./components/search/SearchInput";
-import {IMainState} from "./modules/states";
-import {onUserAuthFailed, onUserAuthSuccessful} from "./modules/user/actions";
-import {IUser} from "./modules/user/IUser";
+import { Results } from "./components/results/Results";
+import { SearchInput } from "./components/search/SearchInput";
+import { IMainState } from "./modules/states";
+import { onUserAuthFailed, onUserAuthSuccessful } from "./modules/user/actions";
+import { IUser } from "./modules/user/IUser";
+
+
 
 interface IConfig {
   apiKey: string;
